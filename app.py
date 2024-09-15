@@ -1,16 +1,13 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/')
 def home():
     return "Hello, Railway!"
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
-
 
 # In-memory storage for FAQs
 faqs = []
@@ -49,3 +46,7 @@ def delete_faq(faq_id):
     global faqs
     faqs = [faq for faq in faqs if faq['id'] != faq_id]
     return jsonify({"message": "FAQ deleted"}), 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
